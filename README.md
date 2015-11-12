@@ -18,9 +18,9 @@ Yelp dataset https://www.yelp.com/dataset_challenge/
 
 Software
 =========
-[Putty (Windows only)](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) for ssh
-[InteliJ Idea](https://www.jetbrains.com/idea)
-[Cyberduck](https://cyberduck.io) for uploading data to azure storage
+*[Putty (Windows only)](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) for ssh
+*[InteliJ Idea](https://www.jetbrains.com/idea)
+*[Cyberduck](https://cyberduck.io) for uploading data to azure storage
 
 Getting started
 ===============
@@ -32,7 +32,7 @@ https://CLUSTER.azurehdinsight.net/#/main/dashboard/metrics
 
 2. ssh to edge node
 ```bash
-ssh \[ssh_username\]@\[cluster_name\]-ssh.azurehdinsight.net 
+ssh [ssh_username]@[cluster_name]-ssh.azurehdinsight.net 
 ``` 
 
 3. (Optional) Get dataset to cluster and upload to DFS
@@ -41,7 +41,7 @@ wasb:
 ```
 
 3. Check you can access data on edge node
-``` hadoop fs -ls ```
+``` hadoop fs -ls /```
 
 Normalize data
 ==============
@@ -104,7 +104,7 @@ LOCATION '/test/business';
 ```
 
 ###Use public blob
-```
+```sql
 CREATE EXTERNAL TABLE review (
 funny int, 
 useful int,
