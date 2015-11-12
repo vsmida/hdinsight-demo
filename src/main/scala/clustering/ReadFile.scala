@@ -1,3 +1,5 @@
+package clustering
+
 import com.twitter.scalding._
 
 class Main( args: Args ) extends Job( args )

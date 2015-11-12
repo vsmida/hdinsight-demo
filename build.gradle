@@ -6,9 +6,10 @@ apply plugin: 'idea'
 apply plugin: 'provided-base'
 apply plugin: 'eu.appsatori.fatjar'
 
+
 ext.scalaVersion = '2.10.0'
 ext.scaldingVersion = '0.13.1'
-ext.cascadingVersion = '3.0.0'
+ext.cascadingVersion = '2.7.0'
 ext.hadoopVersion = '2.6.0'
 
 buildscript {
@@ -30,27 +31,56 @@ repositories {
 
 dependencies {
 
-    compile( group: 'org.scala-lang', name: 'scala-library', version: scalaVersion )
-    compile( group: 'org.scala-lang', name: 'scala-compiler', version: scalaVersion )
+    compile(group: 'org.scala-lang', name: 'scala-library', version: scalaVersion)
+    compile(group: 'org.scala-lang', name: 'scala-compiler', version: scalaVersion)
 
-    compile( group: 'com.twitter', name: 'scalding-core_2.10', version: scaldingVersion ) {
+    compile(group: 'com.twitter', name: 'scalding-core_2.10', version: scaldingVersion) {
         exclude group: 'cascading', module: 'cascading-hadoop'
     }
 
-    compile( group: 'cascading', name: 'cascading-core', version: cascadingVersion )
-    compile( group: 'cascading', name: 'cascading-hadoop2-mr1', version: cascadingVersion )
+    compile(group: 'cascading', name: 'cascading-core', version: cascadingVersion)
+    compile(group: 'cascading', name: 'cascading-hadoop2-mr1', version: cascadingVersion)
 
-    provided( group: 'org.apache.hadoop', name: 'hadoop-common', version: hadoopVersion )
-    provided( group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: hadoopVersion )
+    provided(group: 'org.apache.hadoop', name: 'hadoop-common', version: hadoopVersion)
+    provided(group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: hadoopVersion)
 
-    compile( group: 'com.twitter', name: 'chill_2.10', version: '0.3.6' )
+    compile(group: 'com.twitter', name: 'chill_2.10', version: '0.3.6')
+}
+
+task distTargz(type: Tar) {
+    dependsOn jar, compileScala
+
+    compression = Compression.GZIP
+    baseName = 'hdinsight-demo'
+    extension = 'tar.gz'
+    classifier = 'distribution'
+
+    into("${baseName}/lib") {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        from { jar.archivePath }
+    }
+
+    into(baseName) {
+        from { "README.md" }
+        from { "log4j.properties" }
+    }
+
+    into("${baseName}/scripts") {
+        from { 'scripts' }
+    }
+}
+
+task libraries(type: Copy) {
+    from { configurations.distrib }
+    from { jar.archivePath }
+
+    into { "lib" }
 }
 
 fatJar {
     classifier 'fat'
     manifest {
-        attributes( "Main-Class": "com/twitter/scalding/Tool" )
-
+        attributes("Main-Class": "com/twitter/scalding/Tool")
     }
-    exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF', 'build/**'
+    exclude 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.SF', '*/build/**'
 }

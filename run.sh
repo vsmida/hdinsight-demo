@@ -7,7 +7,11 @@ OUTPUT=output/out.txt
 ssh sshadmin@comiit-ssh.azurehdinsight.net "hdfs dfs -rm -r ${OUTPUT}"
 set -e
 
-yarn jar clustering-1.0-SNAPSHOT-fat.jar Main --hdfs --input data/yelp_academic_dataset_business_clean.json --output output/out.txt
+yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.Main --hdfs --input data/yelp_academic_dataset_business_clean.json --output output/out.txt
+
+yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.Main --hdfs --input /user/smida/fun/inpt.tsv --output /user/smida/fun/output/out.tsv
+
+scripts/scalding-hdfs.sh clustering.Main --input /user/smida/fun/inpt.tsv --output /user/smida/fun/output/out.tsv
 
 
 ####### BUILD AND UPLOAD #######
