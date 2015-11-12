@@ -45,28 +45,23 @@ wasb:
 
 Normalize data
 ==============
+Get Yelp dataset https://www.yelp.com/dataset_challenge/
 Clean the data with https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py
 
 1. Extract data.
-<pre>
+```
 tar -xvf yelp_phoenix_academic_dataset.tar
-</pre>
-
-<pre>
 cd yelp_phoenix_academic_dataset
-wget https://raw.github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py
-</pre>
-
-<pre>
+wget https://raw.github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py \
 yelp_phoenix_academic_dataset$ ls
 convert.py notes.txt READ_FIRST-Phoenix_Academic_Dataset_Agreement-3-11-13.pdf yelp_academic_dataset_business.json yelp_academic_dataset_checkin.json yelp_academic_dataset_review.json yelp_academic_dataset_user.json
-</pre>
+```
 
 2. Convert it to TSV.
-<pre>
+```
 chmod +x convert.py
 ./convert.py
-</pre>
+```
 
 3. The column headers will be printed by the above script.
 <pre>
