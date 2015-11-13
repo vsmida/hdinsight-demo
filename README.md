@@ -43,8 +43,6 @@ Clean the data with https://github.com/vsmida/hdinsight-demo/blob/develop/script
 tar -xvf yelp_phoenix_academic_dataset.tar
 cd yelp_phoenix_academic_dataset
 wget https://raw.github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py
-```
-```
 yelp_phoenix_academic_dataset$ ls
 convert.py notes.txt READ_FIRST-Phoenix_Academic_Dataset_Agreement-3-11-13.pdf yelp_academic_dataset_business.json yelp_academic_dataset_checkin.json yelp_academic_dataset_review.json yelp_academic_dataset_user.json
 ```
@@ -56,29 +54,27 @@ chmod +x convert.py
 ```
 
 3. The column headers will be printed by the above script.
-<pre>
-["city", "review_count", "name", "neighborhoods", "type", "business_id", "full_address", "state", "hours", "longitude", "stars", "latitude", "attributes", "open", "categories"]
-["funny", "useful", "cool", "user_id", "review_id", "text", "business_id", "stars", "date", "type"]
-</pre>
+<pre>["city", "review_count", "name", "neighborhoods", "type", "business_id", "full_address", "state", "hours", "longitude", "stars", "latitude", "attributes", "open", "categories"]
+["funny", "useful", "cool", "user_id", "review_id", "text", "business_id", "stars", "date", "type"]</pre>
 
 Upload dataset to cluster
 ==========================
-3. (Optional) Get dataset to cluster and upload to DFS
+1. Get dataset to cluster and upload to DFS
 In your ssh session on edge node, download dataset to local filesystem
-```
+<pre>
 wget http://comiithdinsight.blob.core.windows.net/public/business.tsv
 ls
-```
+</pre>
 
-4. Upload your data to DFS, in our case we have 2 filesystems mounted on our edge: local HDFS and "remote" Windows Azure Storage Blob (wasb). We will upload to wasb:
- ```
+2. Upload your data to DFS, in our case we have 2 filesystems mounted on our edge: local HDFS and "remote" Windows Azure Storage Blob (wasb). We will upload to wasb:
+ <pre>
  hadoop fs -ls
  hadoop fs -ls /
  hadoop fs -mkdir /data
  hadoop fs -copyFromLocal ./business.tsv / 
-```
+</pre>
 
-5. Check you can access data on edge node
+3. Check you can access data on edge node
 ``` hadoop fs -ls /data```
 or by using any third-party Azure storage explorer, e.g. [Cyberduck](https://cyberduck.io)
 
@@ -90,8 +86,8 @@ In your open ssh connection, type `hive` to get into Hive CLI and wait ... wait 
 Create the Hive tables using HQL (Hive Query Language)
 
 ###Business
-1. 
-```sql
+1. Create table business
+<pre>
 CREATE EXTERNAL TABLE business (
 city string,
 review_count int, 
@@ -112,19 +108,19 @@ categories string
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 STORED AS TEXTFILE
 LOCATION '/data';
-```
+</pre>
 
 2. Validate table columns, types *(by default, hive won't give you warning)*
-```
+<pre>
 SELECT *
 FROM business
 LIMIT BY 15
-```
+</pre>
 
 ###reviews - use public blob
 
-1.
-```sql
+1. Create table reviews
+<pre>
 CREATE EXTERNAL TABLE review (
 funny int, 
 useful int,
@@ -140,14 +136,14 @@ type string
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 STORED AS TEXTFILE
 LOCATION 'wasb://data@hdinisght.blob.core.windows.net/';
-```
+</pre>
 
 2. Validate table columns, types *(by default, hive won't give you warning)*
-```
+<pre>
 SELECT *
 FROM review
 LIMIT BY 15
-```
+</pre>
 
 ##Explore data
 Open up Hue's Hive editor named Beeswax and run:
