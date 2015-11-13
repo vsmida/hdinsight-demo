@@ -2,6 +2,8 @@
 Running hive queries, scalding jobs on [hdinsight](https://azure.microsoft.com/en-us/services/hdinsight/)
 HDinsight can be used for quickly starting up with Hadoop and anlysing data.
 
+Some theory about traditional Hadoop vs hdinsight: https://azure.microsoft.com/sv-se/documentation/articles/hdinsight-hadoop-use-blob-storage/
+
 Requirements
 =============
 * Azure Account
@@ -24,8 +26,7 @@ Getting started
 1. Create HDinisght cluster 
 [Marketplace -> HDinsight](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-linux-tutorial-get-started/)
 
-
-2. Login to Ambari cluster management
+2. Login to [Ambari](https://ambari.apache.org/) cluster management
 https://CLUSTER.azurehdinsight.net/#/main/dashboard/metrics
 
 2. ssh to edge node
@@ -196,6 +197,7 @@ https://www.google.com/maps
 
 2. Configure gradle \& dependencies
 
+
 3. Create dummy program to filter fields
 3.1 Main class
 <pre>
@@ -206,8 +208,17 @@ class Main(args: Args) extends Job(args) { ...}
 4. Build and package to fatJar
  
 5. Run on cluster
+* Upload fatJat to cluster using scp
+* Run using yarn
+<pre>
+yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.Main --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/
+<pre>
 
 6. Run locally
+You need to have classpath correctly set so it can find hadoop libs
+<pre>
+./scripts/scalding-local-project.sh clustering.Main --input data/business.tsv --output data/output/langlong.tsv
+</pre>
 
 K-means clustering
 ===================
