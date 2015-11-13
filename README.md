@@ -211,7 +211,7 @@ class Main(args: Args) extends Job(args) { ...}
 5. Run on cluster
 * Upload fatJat to cluster using scp
 * Run using yarn
-<pre>yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.SimpleFilter --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/<pre>
+<pre>yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.SimpleFilter --hdfs --input /data/business.json --output /output/<pre>
 
 6. Run locally
 You need to have classpath correctly set so it can find hadoop libs:
