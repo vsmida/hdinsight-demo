@@ -197,6 +197,11 @@ https://www.google.com/maps
 2. Configure gradle \& dependencies
 
 3. Create dummy program to filter fields
+3.1 Main class
+<pre>
+class Main(args: Args) extends Job(args) { ...}
+</pre>
+3.2.
 
 4. Build and package to fatJar
  
@@ -204,7 +209,31 @@ https://www.google.com/maps
 
 6. Run locally
 
-For inspration
+K-means clustering
+===================
+
+* For distance calculation between 2 points, use following algorithm:
+
+```
+def distFrom(lat1: Float, lng1: Float, lat2: Float, lng2: Float): Float = {
+    val earthRadius = 6371000; //meters
+    val dLat = Math.toRadians(lat2-lat1)
+    val dLng = Math.toRadians(lng2-lng1)
+    val a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+        Math.sin(dLng/2) * Math.sin(dLng/2)
+    val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    val dist = (earthRadius * c).toFloat
+    return dist
+  }
+```
+
+* Better candidate?
+Iterative algorithm, where it's feasible to fit data in memory
+
+**Spark** is the answer!
+
+* For inspration
 http://chapeau.freevariable.com/2013/12/a-simple-machine-learning-app-with-spark.html
 
 Before you leave
