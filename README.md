@@ -196,7 +196,7 @@ https://www.google.com/maps
 1. Create java project in IntelliJ Idea
 
 2. Configure gradle \& dependencies
-
+https://github.com/vsmida/hdinsight-demo/blob/develop/build.gradle
 
 3. Create dummy program to filter fields
 3.1 Main class
@@ -215,7 +215,10 @@ yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.Main --hdfs --input /data/ye
 <pre>
 
 6. Run locally
-You need to have classpath correctly set so it can find hadoop libs
+You need to have classpath correctly set so it can find hadoop libs:
+https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/scalding-local-project.sh
+https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/setJarPath.py
+
 <pre>
 ./scripts/scalding-local-project.sh clustering.Main --input data/business.tsv --output data/output/langlong.tsv
 </pre>
