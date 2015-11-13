@@ -211,15 +211,12 @@ class Main(args: Args) extends Job(args) { ...}
 5. Run on cluster
 * Upload fatJat to cluster using scp
 * Run using yarn
-<pre>
-yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.SimpleFilter --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/
-<pre>
+<pre>yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.SimpleFilter --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/<pre>
 
 6. Run locally
 You need to have classpath correctly set so it can find hadoop libs:
 https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/scalding-local-project.sh
 https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/setJarPath.py
-
 <pre>
 ./scripts/scalding-local-project.sh clustering.SimpleFilter --input data/business.tsv --output data/output/langlong.tsv
 </pre>
@@ -229,7 +226,7 @@ K-means clustering
 
 * For distance calculation between 2 points, use following algorithm:
 
-```
+```scala
 def distFrom(lat1: Float, lng1: Float, lat2: Float, lng2: Float): Float = {
     val earthRadius = 6371000; //meters
     val dLat = Math.toRadians(lat2-lat1)
