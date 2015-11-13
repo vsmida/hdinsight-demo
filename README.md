@@ -1,5 +1,5 @@
 # Yelp Data Analysis with Hive and Scalding in Azure
-Running hive queries, scalding jobs on hdinsight
+Running hive queries, scalding jobs on [hdinsight](https://azure.microsoft.com/en-us/services/hdinsight/)
 
 Hdinsight
 ==========
@@ -7,25 +7,28 @@ HDinsight can be used for quickly starting up with Hadoop and anlysing data.
 
 Requirements
 =============
-Azure Account
-Internet access
+* Azure Account
+* Internet access
 
 Dataset
 ========
 Yelp dataset https://www.yelp.com/dataset_challenge/
+
 [businesses](https://hdinisght.blob.core.windows.net/data/yelp_academic_dataset_business_clean.tsv)
+
 [reviews]()
 
 Software
 =========
-*[Putty (Windows only)](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) for ssh
-*[InteliJ Idea](https://www.jetbrains.com/idea)
-*[Cyberduck](https://cyberduck.io) for uploading data to azure storage
+* [Putty (Windows only)](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) for ssh
+* [InteliJ Idea](https://www.jetbrains.com/idea)
+* [Cyberduck](https://cyberduck.io) for uploading data to azure storage
 
 Getting started
 ===============
 1. Create HDinisght cluster 
-Marketplace -> HDinsight
+[Marketplace -> HDinsight](https://azure.microsoft.com/en-us/documentation/articles/hdinsight-hadoop-linux-tutorial-get-started/)
+
 
 2. Login to Ambari cluster management
 https://CLUSTER.azurehdinsight.net/#/main/dashboard/metrics
@@ -33,17 +36,8 @@ https://CLUSTER.azurehdinsight.net/#/main/dashboard/metrics
 2. ssh to edge node
 ```bash
 ssh [ssh_username]@[cluster_name]-ssh.azurehdinsight.net 
-``` 
 
-3. (Optional) Get dataset to cluster and upload to DFS
-```
-wasb:
-```
-
-3. Check you can access data on edge node
-``` hadoop fs -ls /```
-
-Normalize data
+\[UPDATE: Skip this step for now\] Normalize data
 ==============
 Get Yelp dataset https://www.yelp.com/dataset_challenge/
 Clean the data with https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py
@@ -52,7 +46,9 @@ Clean the data with https://github.com/vsmida/hdinsight-demo/blob/develop/script
 ```
 tar -xvf yelp_phoenix_academic_dataset.tar
 cd yelp_phoenix_academic_dataset
-wget https://raw.github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py \
+wget https://raw.github.com/vsmida/hdinsight-demo/blob/develop/scripts/convert.py
+```
+```
 yelp_phoenix_academic_dataset$ ls
 convert.py notes.txt READ_FIRST-Phoenix_Academic_Dataset_Agreement-3-11-13.pdf yelp_academic_dataset_business.json yelp_academic_dataset_checkin.json yelp_academic_dataset_review.json yelp_academic_dataset_user.json
 ```
@@ -69,12 +65,36 @@ chmod +x convert.py
 ["funny", "useful", "cool", "user_id", "review_id", "text", "business_id", "stars", "date", "type"]
 </pre>
 
+Upload dataset to cluster
+==========================
+3. (Optional) Get dataset to cluster and upload to DFS
+In your ssh session on edge node, download dataset to local filesystem
+```
+wget http://comiithdinsight.blob.core.windows.net/public/business.tsv
+ls
+```
+
+4. Upload your data to DFS, in our case we have 2 filesystems mounted on our edge: local HDFS and "remote" Windows Azure Storage Blob (wasb). We will upload to wasb:
+ ```
+ hadoop fs -ls
+ hadoop fs -ls /
+ hadoop fs -mkdir /data
+ hadoop fs -copyFromLocal ./business.tsv / 
+```
+
+5. Check you can access data on edge node
+``` hadoop fs -ls /data```
+or by using any third-party Azure storage explorer, e.g. [Cyberduck](https://cyberduck.io)
+
 Hive
 =====
 In your open ssh connection, type `hive` to get into Hive CLI and wait ... wait ...
 
-##Create Table
+##Create Tables
 Create the Hive tables using HQL (Hive Query Language)
+
+###Business
+1. 
 ```sql
 CREATE EXTERNAL TABLE business (
 city string,
@@ -95,10 +115,19 @@ categories string
 )
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 STORED AS TEXTFILE
-LOCATION '/test/business';
+LOCATION '/data';
 ```
 
-###Use public blob
+2. Validate table columns, types *(by default, hive won't give you warning)*
+```
+SELECT *
+FROM business
+LIMIT BY 15
+```
+
+###reviews - use public blob
+
+1.
 ```sql
 CREATE EXTERNAL TABLE review (
 funny int, 
@@ -116,7 +145,15 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 STORED AS TEXTFILE
 LOCATION 'wasb://data@hdinisght.blob.core.windows.net/';
 ```
-##Queries
+
+2. Validate table columns, types *(by default, hive won't give you warning)*
+```
+SELECT *
+FROM review
+LIMIT BY 15
+```
+
+##Explore data
 Open up Hue's Hive editor named Beeswax and run:
 
 1. **Top 25: business with most of the reviews**
@@ -157,12 +194,23 @@ ORDER BY coolness DESC;
 Let your imagination run wild!
 
 
-Spark
+Mapreduce jobs with Scalding
 ======
-
-
+0. *(Optional)*
 Check latitude, longitude on google maps
 https://www.google.com/maps
+
+1. Create java project in IntelliJ Idea
+
+2. Configure gradle \& dependencies
+
+3. Create dummy program to filter fields
+
+4. Build and package to fatJar
+ 
+5. Run on cluster
+
+6. Run locally
 
 For inspration
 http://chapeau.freevariable.com/2013/12/a-simple-machine-learning-app-with-spark.html
