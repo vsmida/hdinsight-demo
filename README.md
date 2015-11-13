@@ -218,7 +218,7 @@ You need to have classpath correctly set so it can find hadoop libs:
 https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/scalding-local-project.sh
 https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/setJarPath.py
 <pre>
-./scripts/scalding-local-project.sh clustering.SimpleFilter --input data/business.tsv --output data/output/langlong.tsv
+./scripts/scalding-local-project.sh clustering.SimpleFilter --input /data/business.tsv --output data/output/langlong.tsv
 </pre>
 
 K-means clustering
