@@ -196,14 +196,15 @@ https://www.google.com/maps
 1. Create java project in IntelliJ Idea
 
 2. Configure gradle \& dependencies
-https://github.com/vsmida/hdinsight-demo/blob/develop/build.gradle
+* https://github.com/vsmida/hdinsight-demo/blob/develop/build.gradle
+* Sync idea to download external libraries
 
 3. Create dummy program to filter fields
-3.1 Main class
+* Main class
 <pre>
 class Main(args: Args) extends Job(args) { ...}
 </pre>
-3.2.
+*
 
 4. Build and package to fatJar
  
@@ -211,7 +212,7 @@ class Main(args: Args) extends Job(args) { ...}
 * Upload fatJat to cluster using scp
 * Run using yarn
 <pre>
-yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.Main --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/
+yarn jar clustering-1.0-SNAPSHOT-fat.jar clustering.SimpleFilter --hdfs --input /data/yelp_academic_dataset_business_clean.json --output /output/
 <pre>
 
 6. Run locally
@@ -220,7 +221,7 @@ https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/scalding-local-pro
 https://github.com/vsmida/hdinsight-demo/blob/develop/scripts/setJarPath.py
 
 <pre>
-./scripts/scalding-local-project.sh clustering.Main --input data/business.tsv --output data/output/langlong.tsv
+./scripts/scalding-local-project.sh clustering.SimpleFilter --input data/business.tsv --output data/output/langlong.tsv
 </pre>
 
 K-means clustering
@@ -244,7 +245,6 @@ def distFrom(lat1: Float, lng1: Float, lat2: Float, lng2: Float): Float = {
 
 * Better candidate?
 Iterative algorithm, where it's feasible to fit data in memory
-
 **Spark** is the answer!
 
 * For inspration
