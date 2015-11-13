@@ -1,8 +1,5 @@
 # Yelp Data Analysis with Hive and Scalding in Azure
 Running hive queries, scalding jobs on [hdinsight](https://azure.microsoft.com/en-us/services/hdinsight/)
-
-Hdinsight
-==========
 HDinsight can be used for quickly starting up with Hadoop and anlysing data.
 
 Requirements
@@ -12,11 +9,9 @@ Requirements
 
 Dataset
 ========
-Yelp dataset https://www.yelp.com/dataset_challenge/
-
-[businesses](https://hdinisght.blob.core.windows.net/data/yelp_academic_dataset_business_clean.tsv)
-
-[reviews]()
+* Yelp dataset https://www.yelp.com/dataset_challenge/
+* [businesses table](https://hdinisght.blob.core.windows.net/data/business.tsv)
+* reviews table
 
 Software
 =========
@@ -36,6 +31,7 @@ https://CLUSTER.azurehdinsight.net/#/main/dashboard/metrics
 2. ssh to edge node
 ```bash
 ssh [ssh_username]@[cluster_name]-ssh.azurehdinsight.net 
+```
 
 \[UPDATE: Skip this step for now\] Normalize data
 ==============
